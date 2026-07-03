@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
 <title>Akali — Cepa Avm</title>
 <style>
   :root{
@@ -80,7 +81,8 @@
     transition:transform .3s;
   }
   .row2{display:flex;align-items:flex-start;gap:14px;margin-top:12px;}
-  .row2 .desc{margin-top:0;flex:1;}
+  .row2 .col{flex:1;min-width:0;}
+  .row2 .desc{margin-top:0;}
   .row2 .plus{margin-left:auto;margin-top:4px;}
   .item.slim .row2{margin-top:8px;}
   .plus::before,.plus::after{
@@ -94,7 +96,8 @@
     margin-top:12px;max-width:88%;
   }
   .detail{max-height:0;overflow:hidden;transition:max-height .3s ease;}
-  .detail-inner{padding-top:18px;}
+  .detail-inner{padding-top:12px;}
+  .col.only .detail-inner{padding-top:2px;}
   .kcal{font-size:13px;font-weight:700;margin-bottom:12px;}
   .kcal span{font-weight:400;font-style:italic;color:var(--grey);}
   .chips{display:flex;flex-wrap:wrap;gap:7px;}
@@ -165,7 +168,7 @@
 
     <div class="f-title">Akali Cepa Avm</div>
     <div class="f-line" data-t="hours">Pazartesi – Pazar 12.00 – 22.00</div>
-    <div class="f-line">0212 227 42 42 / <a class="mail" href="mailto:info@akali.co">info@akali.co</a></div>
+    <div class="f-line"><a class="mail" href="tel:+902122274242">0212 227 42 42</a> / <a class="mail" href="mailto:info@akali.co">info@akali.co</a></div>
 
     <div class="f-block">
       <div class="lbl" data-t="alg_title">Alerjen Uyarısı</div>
@@ -293,12 +296,12 @@ function render(){
         else if(!it.a || it.a.length===0) chips = "";
         else chips = it.a.map(k=>`<span class="chip">${ALG[k][lang]}</span>`).join("");
         const kcal = it.k===null ? "" : `<div class="kcal">${it.k} <span>${T.kcal_lbl[lang]}</span></div>`;
-        const body = `<div class="row2">${it.d?`<div class="desc">${esc(it.d[lang])}</div>`:""}<div class="plus"></div></div>`;
+        const detail = `<div class="detail"><div class="detail-inner">${kcal}${chips?`<div class="chips">${chips}</div>`:""}</div></div>`;
+        const body = `<div class="row2"><div class="col${it.d?"":" only"}">${it.d?`<div class="desc">${esc(it.d[lang])}</div>`:""}${detail}</div><div class="plus"></div></div>`;
         h += `
         <div class="item${slim?" slim":""}" onclick="toggle(this)">
           <div class="row1">${name}<div class="price">${it.p}₺</div></div>
           ${body}
-          <div class="detail"><div class="detail-inner">${kcal}${chips?`<div class="chips">${chips}</div>`:""}</div></div>
         </div>`;
       });
     });
